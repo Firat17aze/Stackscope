@@ -1,0 +1,55 @@
+# StackScope 🔬
+
+A lightweight memory profiler for ATmega328P. See your Arduino's stack and heap in real-time!
+
+## What it does
+
+- Shows stack/heap usage live on your PC
+- Catches stack overflows before they crash your code
+- Zero cost when disabled - your production binary stays clean
+
+## Setup
+
+**1. Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+**2. Add to your code**
+```c
+#define ENABLE_STACKSCOPE
+#include "StackScope.h"
+
+int main(void) {
+    UART_Init();  // your UART setup first
+    StackScope_Init();
+    
+    while (1) {
+        StackScope_Check();
+        // your code...
+    }
+}
+
+// In your UART RX interrupt:
+ISR(USART_RX_vect) {
+    uint8_t ch = UDR0;
+    if (StackScope_IsHandshakeByte(ch)) {
+        StackScope_TriggerHandshake();
+        return;
+    }
+    // handle other bytes...
+}
+```
+
+**3. Run the visualizer**
+```bash
+python stackscope.py --port COM5 --static-data 761
+```
+
+## Works with
+
+Arduino Uno, Nano, Pro Mini (ATmega328P)
+
+## Disabling for production
+
+Just comment out `#define ENABLE_STACKSCOPE` - the profiler compiles to nothing.
