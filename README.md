@@ -1,6 +1,6 @@
 # StackScope 
 
-A lightweight memory profiler for ATmega328P. See your Arduino's stack and heap in real-time!
+A lightweight memory profiler for ATmega328P. 
 
 ## What it does
 
