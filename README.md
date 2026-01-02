@@ -53,3 +53,26 @@ Arduino Uno, Nano, Pro Mini (ATmega328P)
 ## Disabling for production
 
 Just comment out `#define ENABLE_STACKSCOPE` - the profiler compiles to nothing.
+
+PROS
+1.Zero overhead when disabled (0 bytes in production binary)
+2.Peak stack tracking (watermark - catches worst-case usage)
+3.Stack painting for accurate measurement
+4.Real-time heap monitoring (malloc/free tracking)
+5.Stack/heap collision detection with alerts
+6.Non-invasive - coexists with existing UART code
+7.Visual terminal dashboard - no debugging skills needed
+8.Single header file - just drop into project
+9.Silent-by-default - secure, no data until handshake
+10.Rate-limited to prevent CPU flooding
+
+CONS(at this time)
+1.ATmega328P only (won't work on other microcontrollers)
+2.Shares UART - can't use if UART needed for other protocols
+3.Fixed 9600 baud rate - must match existing UART config
+4.Requires manual integration of handshake into UART handler
+~10 bytes RAM overhead when enabled
+5.Requires physical USB connection (no wireless)
+6.Python + dependencies required for visualizer
+7.Not real-time accurate (samples every ~256 loop iterations)
+8.C/C++ - incompatible with Arduino Serial library
